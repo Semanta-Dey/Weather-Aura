@@ -1,4 +1,4 @@
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
             const API_KEY = "c99d88d48736985c8d5104a99b1904ca";
             const DEFAULT_CITY = "London";
 
