@@ -7,7 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const searchIconBtn = document.getElementById('search-icon-btn');
             const currentLocationBtn = document.getElementById('current-location-btn');
             
+            // --- NEW: Get theme buttons
+            const desktopThemeBtn = document.getElementById('desktop-theme-btn');
+            const mobileThemeBtn = document.getElementById('mobile-theme-btn');
+
             const DOMElements = {
+                // (same as before)
                 currentTemp: document.getElementById('current-temp'),
                 weatherIcon: document.getElementById('current-weather-icon'),
                 description: document.getElementById('current-description'),
@@ -29,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 hourlyForecast: document.getElementById('hourly-forecast-container')
             };
 
+            // --- ALL WEATHER-RELATED FUNCTIONS (debounce, fetchCitySuggestions, etc.) remain unchanged ---
+            
             let debounceTimeout;
             const debounce = (func, delay) => {
                 return (...args) => {
@@ -67,10 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         listItem.dataset.lon = lon;
                         
                         const stateText = state ? `, ${state}` : '';
-                        listItem.innerHTML = `
-                            <span class="material-symbols-outlined">location_city</span>
-                            <span class="item-text">${name}${stateText}, ${country}</span>
-                        `;
+                        listItem.innerHTML = `<span class="material-symbols-outlined">location_city</span><span class="item-text">${name}${stateText}, ${country}</span>`;
                         DOMElements.searchResultsList.appendChild(listItem);
                     });
                 } catch (error) {
@@ -154,13 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 DOMElements.hourlyForecast.innerHTML = '';
                 for (let i = 0; i < 8; i++) {
                     const item = forecast.list[i];
-                    DOMElements.hourlyForecast.innerHTML += `
-                        <div class="hourly-item">
-                            <p class="time">${new Date(item.dt * 1000).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })}</p>
-                            <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" alt="Weather" class="weather-icon">
-                            <p class="temp">${Math.round(item.main.temp)}°</p>
-                        </div>
-                    `;
+                    DOMElements.hourlyForecast.innerHTML += `<div class="hourly-item"><p class="time">${new Date(item.dt * 1000).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })}</p><img src="https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" alt="Weather" class="weather-icon"><p class="temp">${Math.round(item.main.temp)}°</p></div>`;
                 }
                 
                 const dailyData = {};
@@ -175,19 +173,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 Object.keys(dailyData).slice(0, 5).forEach(date => {
                     const day = dailyData[date];
                     const mostFrequentIcon = day.icons.sort((a,b) => day.icons.filter(v => v===a).length - day.icons.filter(v => v===b).length).pop();
-                    DOMElements.forecastList.innerHTML += `
-                        <li class="forecast-item">
-                            <img src="https://openweathermap.org/img/wn/${mostFrequentIcon}@2x.png" alt="Weather" class="weather-icon">
-                            <p class="temp">${Math.round(day.temp_max)}°</p>
-                            <p class="day">${new Date(date).toLocaleDateString('en-US', { weekday: 'long' })}</p>
-                        </li>
-                    `;
+                    DOMElements.forecastList.innerHTML += `<li class="forecast-item"><img src="https://openweathermap.org/img/wn/${mostFrequentIcon}@2x.png" alt="Weather" class="weather-icon"><p class="temp">${Math.round(day.temp_max)}°</p><p class="day">${new Date(date).toLocaleDateString('en-US', { weekday: 'long' })}</p></li>`;
                 });
             };
 
             const getAqiData = (aqi) => {
                 const levels = [
-                    { text: 'Good', color: '#88FF8B', bgColor: '#313f31'},
+                    { text: 'Good', color: '#88FF8B', bgColor: '#293829'},
                     { text: 'Fair', color: '#D4FF88', bgColor: '#3e4431'},
                     { text: 'Moderate', color: '#FFE088', bgColor: '#444131'},
                     { text: 'Poor', color: '#FFB388', bgColor: '#443731'},
@@ -196,8 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return levels[aqi - 1] || { text: 'Unknown', color: '#A4A6B9', bgColor: '#38383a' };
             };
             
-            const debouncedFetchSuggestions = debounce(fetchCitySuggestions, 500);
 
+            // --- EVENT LISTENERS FOR SEARCH AND LOCATION ---
+
+            const debouncedFetchSuggestions = debounce(fetchCitySuggestions, 500);
             searchInput.addEventListener('input', () => {
                 debouncedFetchSuggestions(searchInput.value.trim());
             });
@@ -205,32 +199,20 @@ document.addEventListener('DOMContentLoaded', () => {
             DOMElements.searchResultsList.addEventListener('click', (e) => {
                 const listItem = e.target.closest('.view-item');
                 if (!listItem || !listItem.dataset.lat) return; 
-
-                const lat = listItem.dataset.lat;
-                const lon = listItem.dataset.lon;
-
-                fetchWeatherData(lat, lon);
-
+                fetchWeatherData(listItem.dataset.lat, listItem.dataset.lon);
                 DOMElements.searchResultsList.parentElement.classList.remove('active');
                 searchInput.value = "";
             });
 
             const handleSearch = () => {
                 const city = searchInput.value.trim();
-                if(city) {
-                    getWeatherByCity(city);
-                }
+                if(city) getWeatherByCity(city);
                 searchInput.value = "";
                 searchInput.blur();
                 DOMElements.searchResultsList.parentElement.classList.remove('active');
             };
 
-            searchInput.addEventListener('keyup', e => {
-                if (e.key === 'Enter') {
-                    handleSearch();
-                }
-            });
-
+            searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') handleSearch(); });
             searchIconBtn.addEventListener('click', handleSearch);
 
             currentLocationBtn.addEventListener('click', () => {
@@ -240,5 +222,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             });
             
-            getWeatherByCity(DEFAULT_CITY);
+            // --- NEW THEME TOGGLE LOGIC ---
+            let isLightTheme = localStorage.getItem('theme') === 'light';
+
+            const applyTheme = (isLight) => {
+                const icon = isLight ? 'dark_mode' : 'light_mode';
+                document.body.classList.toggle('light-theme', isLight);
+                desktopThemeBtn.querySelector('.material-symbols-outlined').textContent = icon;
+                mobileThemeBtn.querySelector('.material-symbols-outlined').textContent = icon;
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            };
+
+            const toggleTheme = () => {
+                isLightTheme = !isLightTheme;
+                applyTheme(isLightTheme);
+            };
+
+            desktopThemeBtn.addEventListener('click', toggleTheme);
+            mobileThemeBtn.addEventListener('click', toggleTheme);
+
+            // --- INITIALIZATION ---
+            applyTheme(isLightTheme); // Apply saved theme on load
+            getWeatherByCity(DEFAULT_CITY); // Load default city weather
         });
