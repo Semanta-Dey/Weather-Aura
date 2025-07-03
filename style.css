@@ -1,4 +1,4 @@
-:root {
+ :root {
             --background: #131216;
             --surface: #1E1E22;
             --on-surface: #DDE2FF;
@@ -52,6 +52,7 @@
             justify-content: space-between;
             align-items: center;
             gap: 24px;
+            flex-wrap: wrap;
         }
         
         .logo {
@@ -148,7 +149,6 @@
             font-size: 1rem;
         }
         
-        /* --- NEW: Theme Toggle Button Styles --- */
         .theme-btn {
             display: flex;
             align-items: center;
@@ -169,7 +169,7 @@
             font-size: 1.8rem;
         }
         #mobile-theme-btn {
-            display: none; /* Hidden on desktop by default */
+            display: none;
         }
 
         .content-grid {
@@ -189,7 +189,6 @@
             transition: background-color 0.3s ease;
         }
 
-        /* --- ALL OTHER STYLES (REMAIN MOSTLY THE SAME) --- */
         .current-weather-card .card-header { font-size: 1.1rem; margin-bottom: 16px; }
         .current-weather-card .weather-info { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
         .current-weather-card .temp { color: var(--on-surface); font-size: 4rem; font-weight: 700; }
@@ -228,11 +227,25 @@
         .highlight-card.generic .card-content { display: flex; align-items: center; gap: 12px; }
         .highlight-card.generic .value { color: var(--on-surface); font-weight: 600; font-size: 1.8rem; }
         
-        .hourly-forecast .slider-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: thin; scrollbar-color: var(--primary) var(--outline); }
+        .hourly-forecast .slider-container { 
+            display: flex; 
+            gap: 12px; 
+            overflow-x: auto; 
+            padding-bottom: 12px; 
+            scrollbar-width: thin; 
+            scrollbar-color: var(--primary) var(--outline);
+        }
         .slider-container::-webkit-scrollbar { height: 8px; }
         .slider-container::-webkit-scrollbar-track { background: var(--outline); border-radius: 10px; }
         .slider-container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        .hourly-item { flex: 0 0 90px; background-color: var(--surface); border-radius: 16px; padding: 16px; text-align: center; transition: background-color 0.3s ease; }
+        .hourly-item { 
+            flex: 0 0 90px;
+            background-color: var(--surface);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
         .hourly-item .time, .hourly-item .temp { color: var(--on-surface); font-weight: 600; }
         .hourly-item .weather-icon { width: 48px; height: 48px; margin: 8px auto; }
         
@@ -240,23 +253,33 @@
         .container .loading-text { display: none; }
         .container.loading .loading-text { display: block; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; color: var(--on-surface); z-index: 10; }
 
-        /* --- NEW / EDITED: Responsive styles for buttons --- */
         @media (max-width: 992px) {
             .page-header {
-                flex-direction: row; /* Keep it as a row for mobile header */
-                justify-content: space-between; /* Space out logo and buttons */
+                flex-direction: row;
+                justify-content: space-between;
                 align-items: center;
+            }
+            .page-header > .logo {
+                flex-grow: 1;
+            }
+            .page-header > button#mobile-theme-btn {
+                order: 2;
             }
             .header-actions {
                 width: 100%;
-                flex-direction: column; /* Stack search and location button */
+                flex-direction: column;
                 align-items: stretch;
-                margin-top: 16px;
+                order: 3;
             }
-            .content-grid { grid-template-columns: 1fr; }
-            .highlight-card.sunrise-sunset { grid-column: span 1; }
+            
+            .content-grid { 
+                grid-template-columns: 1fr; /* Sidebar and main content stack vertically */
+            }
 
-            /* Swap theme buttons */
+            .highlight-card.sunrise-sunset { 
+                grid-column: span 1; 
+            }
+
             #desktop-theme-btn {
                 display: none;
             }
@@ -264,23 +287,14 @@
                 display: flex;
             }
 
-            /* Adjust mobile header structure */
-            .page-header > .logo {
-                flex-grow: 1; /* Allow logo to take up space */
+            /* --- EDITED AS PER YOUR REQUEST --- */
+            .hourly-forecast .slider-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                overflow-x: visible; /* Remove horizontal scroll */
+                padding-bottom: 0;
             }
-            .page-header > .header-actions {
-                /* This is a wrapper now for just search/location */
-                width: 100%;
-                order: 3; /* Move it below the header row */
+            .hourly-item {
+                flex: auto; /* Allow grid to control the size */
             }
-            .page-header > button#mobile-theme-btn {
-                order: 2; /* Keep button next to logo */
-            }
-        }
-        
-        /* A slightly larger breakpoint to hide the desktop theme button earlier if needed */
-        @media (max-width: 1200px) {
-             .page-header {
-                flex-wrap: wrap; /* Allow header items to wrap */
-             }
         }

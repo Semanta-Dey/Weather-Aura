@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
             const API_KEY = "c99d88d48736985c8d5104a99b1904ca";
             const DEFAULT_CITY = "London";
 
@@ -7,12 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const searchIconBtn = document.getElementById('search-icon-btn');
             const currentLocationBtn = document.getElementById('current-location-btn');
             
-            // --- NEW: Get theme buttons
             const desktopThemeBtn = document.getElementById('desktop-theme-btn');
             const mobileThemeBtn = document.getElementById('mobile-theme-btn');
 
             const DOMElements = {
-                // (same as before)
                 currentTemp: document.getElementById('current-temp'),
                 weatherIcon: document.getElementById('current-weather-icon'),
                 description: document.getElementById('current-description'),
@@ -34,8 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 hourlyForecast: document.getElementById('hourly-forecast-container')
             };
 
-            // --- ALL WEATHER-RELATED FUNCTIONS (debounce, fetchCitySuggestions, etc.) remain unchanged ---
-            
             let debounceTimeout;
             const debounce = (func, delay) => {
                 return (...args) => {
@@ -188,9 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return levels[aqi - 1] || { text: 'Unknown', color: '#A4A6B9', bgColor: '#38383a' };
             };
             
-
-            // --- EVENT LISTENERS FOR SEARCH AND LOCATION ---
-
             const debouncedFetchSuggestions = debounce(fetchCitySuggestions, 500);
             searchInput.addEventListener('input', () => {
                 debouncedFetchSuggestions(searchInput.value.trim());
@@ -222,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             });
             
-            // --- NEW THEME TOGGLE LOGIC ---
             let isLightTheme = localStorage.getItem('theme') === 'light';
 
             const applyTheme = (isLight) => {
@@ -241,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
             desktopThemeBtn.addEventListener('click', toggleTheme);
             mobileThemeBtn.addEventListener('click', toggleTheme);
 
-            // --- INITIALIZATION ---
-            applyTheme(isLightTheme); // Apply saved theme on load
-            getWeatherByCity(DEFAULT_CITY); // Load default city weather
+            applyTheme(isLightTheme);
+            getWeatherByCity(DEFAULT_CITY);
         });
