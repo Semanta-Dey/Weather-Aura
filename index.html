@@ -20,11 +20,8 @@
 <body>
 
     <div class="container loading">
-        
         <div class="loading-text">Loading...</div>
-
         <header class="page-header">
-            <!-- LOGO EDITED -->
             <a href="#" class="logo">
                 <img src="logo.png" alt="Aura Weather Logo">
             </a>
@@ -47,6 +44,10 @@
                     <span class="material-symbols-outlined">my_location</span>
                     <span>Current Location</span>
                 </button>
+                <button class="unit-toggle-btn" id="unit-toggle-btn" aria-label="Toggle Temperature Unit">
+                    <span class="celsius-span">°C</span>
+                    <span class="fahrenheit-span">°F</span>
+                </button>
                 <button class="theme-btn" id="desktop-theme-btn" aria-label="Toggle Theme">
                      <span class="material-symbols-outlined">dark_mode</span>
                 </button>
@@ -58,7 +59,7 @@
                 <div class="card current-weather-card">
                     <p class="card-header">Now</p>
                     <div class="weather-info">
-                        <p class="temp"><span id="current-temp">--</span><span class="temp-unit">°C</span></p>
+                        <p class="temp"><span id="current-temp">--</span><span class="temp-unit" id="current-temp-unit">°C</span></p>
                         <img src="https://openweathermap.org/img/wn/01d@4x.png" alt="Weather Icon" class="weather-icon" id="current-weather-icon">
                     </div>
                     <p class="description" id="current-description">--</p>
@@ -128,7 +129,10 @@
                             <h3 class="card-title">Feels Like</h3>
                             <div class="card-content">
                                 <span class="material-symbols-outlined" style="font-size: 3rem;">thermostat</span>
-                                <p class="value" id="feels-like">-- <span>°C</span></p>
+                                <!-- EDITED HTML: Separated value and unit into two spans -->
+                                <p class="value">
+                                    <span id="feels-like">--</span><span id="feels-like-unit">°C</span>
+                                </p>
                             </div>
                         </div>
                     </div>
