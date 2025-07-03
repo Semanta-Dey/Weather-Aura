@@ -11,13 +11,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="style.css">
-</head>
+    </head>
 <body>
+    <!-- The rest of the HTML Body remains unchanged. Copying it here for completeness -->
     <div class="container loading">
         
         <div class="loading-text">Loading...</div>
 
-        <!-- HEADER with Logo, Search, and Location Button -->
         <header class="page-header">
             <a href="#" class="logo">
                 <span class="material-symbols-outlined" style="font-size: 2.5rem;">cloudy</span>
@@ -25,10 +25,13 @@
             </a>
             <div class="header-actions">
                 <div class="search-view">
-                    <input type="search" class="search-field" id="search-input" placeholder="Search city...">
+                    <input type="search" class="search-field" id="search-input" placeholder="Search city..." autocomplete="off">
                     <button class="search-icon-btn" id="search-icon-btn" aria-label="Search">
                         <span class="material-symbols-outlined">search</span>
                     </button>
+                    <div class="search-results-container">
+                        <ul class="view-list" id="search-results-list"></ul>
+                    </div>
                 </div>
                 <button class="location-btn" id="current-location-btn">
                     <span class="material-symbols-outlined">my_location</span>
@@ -37,7 +40,6 @@
             </div>
         </header>
 
-        <!-- Main Content Area -->
         <div class="content-grid">
             <aside class="sidebar">
                 <div class="card current-weather-card">

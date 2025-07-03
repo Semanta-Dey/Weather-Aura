@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const container = document.querySelector('.container');
             const searchInput = document.getElementById('search-input');
-            const searchIconBtn = document.getElementById('search-icon-btn'); // New button
+            const searchIconBtn = document.getElementById('search-icon-btn');
             const currentLocationBtn = document.getElementById('current-location-btn');
             
             const DOMElements = {
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 date: document.getElementById('current-date'),
                 location: document.getElementById('current-location'),
                 forecastList: document.getElementById('forecast-list'),
+                searchResultsList: document.getElementById('search-results-list'),
                 aqiStatus: document.getElementById('aqi-status'),
                 pm2_5: document.getElementById('pm2_5'),
                 so2: document.getElementById('so2'),
@@ -28,6 +29,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 hourlyForecast: document.getElementById('hourly-forecast-container')
             };
 
+            let debounceTimeout;
+            const debounce = (func, delay) => {
+                return (...args) => {
+                    clearTimeout(debounceTimeout);
+                    debounceTimeout = setTimeout(() => {
+                        func.apply(this, args);
+                    }, delay);
+                };
+            };
+            
+            const fetchCitySuggestions = async (query) => {
+                if (query.length < 2) { 
+                    DOMElements.searchResultsList.parentElement.classList.remove('active');
+                    DOMElements.searchResultsList.innerHTML = "";
+                    return;
+                }
+                try {
+                    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`;
+                    const response = await fetch(geoUrl);
+                    if (!response.ok) throw new Error("Failed to fetch suggestions.");
+                    const data = await response.json();
+                    
+                    DOMElements.searchResultsList.parentElement.classList.add('active');
+                    DOMElements.searchResultsList.innerHTML = "";
+                    
+                    if (data.length === 0) {
+                        DOMElements.searchResultsList.innerHTML = `<li class="view-item" style="cursor: default;"><span class="item-text">No results found.</span></li>`;
+                        return;
+                    }
+
+                    data.forEach(city => {
+                        const { name, lat, lon, country, state } = city;
+                        const listItem = document.createElement('li');
+                        listItem.classList.add('view-item');
+                        listItem.dataset.lat = lat;
+                        listItem.dataset.lon = lon;
+                        
+                        const stateText = state ? `, ${state}` : '';
+                        listItem.innerHTML = `
+                            <span class="material-symbols-outlined">location_city</span>
+                            <span class="item-text">${name}${stateText}, ${country}</span>
+                        `;
+                        DOMElements.searchResultsList.appendChild(listItem);
+                    });
+                } catch (error) {
+                    console.error("Suggestion fetch error:", error);
+                    DOMElements.searchResultsList.parentElement.classList.remove('active');
+                }
+            };
+            
             const fetchWeatherData = async (lat, lon) => {
                 container.classList.add('loading');
                 try {
@@ -145,12 +196,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 return levels[aqi - 1] || { text: 'Unknown', color: '#A4A6B9', bgColor: '#38383a' };
             };
             
-            // --- UPDATED Search Handling ---
+            const debouncedFetchSuggestions = debounce(fetchCitySuggestions, 500);
+
+            searchInput.addEventListener('input', () => {
+                debouncedFetchSuggestions(searchInput.value.trim());
+            });
+
+            DOMElements.searchResultsList.addEventListener('click', (e) => {
+                const listItem = e.target.closest('.view-item');
+                if (!listItem || !listItem.dataset.lat) return; 
+
+                const lat = listItem.dataset.lat;
+                const lon = listItem.dataset.lon;
+
+                fetchWeatherData(lat, lon);
+
+                DOMElements.searchResultsList.parentElement.classList.remove('active');
+                searchInput.value = "";
+            });
+
             const handleSearch = () => {
                 const city = searchInput.value.trim();
-                getWeatherByCity(city);
+                if(city) {
+                    getWeatherByCity(city);
+                }
                 searchInput.value = "";
-                searchInput.blur(); // Remove focus from input after search
+                searchInput.blur();
+                DOMElements.searchResultsList.parentElement.classList.remove('active');
             };
 
             searchInput.addEventListener('keyup', e => {

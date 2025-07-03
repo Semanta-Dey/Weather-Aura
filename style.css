@@ -1,4 +1,4 @@
- :root {
+:root {
             --background: #131216;
             --surface: #1E1E22;
             --on-surface: #DDE2FF;
@@ -16,9 +16,8 @@
             background-color: var(--background);
             color: var(--on-surface-variant);
             display: flex;
-            justify-content: center; 
+            justify-content: center;
             align-items: flex-start;
-            /* justify-content: space-between; */
             min-height: 100vh;
             padding: 24px;
         }
@@ -37,7 +36,6 @@
             position: relative;
         }
         
-        /* --- UPDATED: Header for Desktop & Mobile --- */
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -73,7 +71,7 @@
             width: 100%;
             height: 48px;
             padding-left: 16px;
-            padding-right: 56px; /* Space for the button */
+            padding-right: 56px;
             background-color: var(--surface);
             border: 1px solid var(--outline);
             border-radius: 16px;
@@ -99,6 +97,56 @@
         }
         .search-icon-btn:hover { color: var(--on-surface); }
 
+        .search-results-container {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            background-color: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--outline);
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--outline);
+        }
+
+        .search-results-container.active {
+            display: block;
+        }
+        
+        .search-results-container::-webkit-scrollbar { height: 8px; width: 8px; }
+        .search-results-container::-webkit-scrollbar-track { background: var(--outline); border-radius: 10px; }
+        .search-results-container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        .view-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .view-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--outline);
+        }
+        
+        .view-item:last-child {
+            border-bottom: none;
+        }
+
+        .view-item:hover {
+            background-color: var(--outline);
+        }
+
+        .view-item .item-text {
+            color: var(--on-surface);
+        }
+
         .location-btn {
             display: flex;
             align-items: center;
@@ -114,7 +162,6 @@
             font-size: 1rem;
         }
 
-        /* --- Content Grid --- */
         .content-grid {
             display: grid;
             grid-template-columns: minmax(250px, 360px) 1fr;
@@ -122,13 +169,11 @@
             width: 100%;
         }
 
-        /* --- Sidebar & Main Content --- */
         .sidebar, .main-content { transition: opacity 0.3s ease; }
         .sidebar { display: flex; flex-direction: column; gap: 24px; }
         .main-content { display: flex; flex-direction: column; gap: 24px; }
         .card { background-color: var(--surface); border-radius: 24px; padding: 24px; }
 
-        /* Current Weather Card */
         .current-weather-card .card-header { font-size: 1.1rem; margin-bottom: 16px; }
         .current-weather-card .weather-info { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
         .current-weather-card .temp { color: var(--on-surface); font-size: 4rem; font-weight: 700; }
@@ -139,7 +184,6 @@
         .current-weather-card .meta-info { display: flex; flex-direction: column; gap: 12px; }
         .current-weather-card .meta-row { display: flex; align-items: center; gap: 8px; }
 
-        /* Forecast Card */
         .forecast-card .title { color: var(--on-surface); font-weight: 700; margin-bottom: 16px; }
         .forecast-list { list-style: none; }
         .forecast-item { display: grid; grid-template-columns: max-content 1fr max-content; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--outline); }
@@ -148,24 +192,40 @@
         .forecast-item .day { justify-self: end; }
         .forecast-item .weather-icon { width: 48px; height: 48px; }
         
-        /* Highlights */
         .highlights .title, .hourly-forecast .title { color: var(--on-surface); font-weight: 700; margin-bottom: 16px; }
         .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
         .highlight-card { background-color: var(--surface); border-radius: 20px; padding: 20px; }
         .highlight-card .card-title { margin-bottom: 16px; }
+        
         .highlight-card.aqi .card-content { display: flex; justify-content: space-between; align-items: center; }
         .highlight-card.aqi .aqi-status { color: var(--success); background-color: var(--success-bg); padding: 4px 12px; border-radius: 12px; font-weight: 600; }
         .highlight-card .pollutants { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; margin-top: 16px; }
         .pollutant-item { display: flex; align-items: center; gap: 8px; }
         .pollutant-item .value { color: var(--on-surface); font-weight: 600; }
-        .highlight-card.sunrise-sunset .card-content { display: flex; justify-content: space-around; gap: 20px; }
+        
+        /* --- NEW/CHANGED AS PER YOUR REQUEST --- */
+        .highlight-card.sunrise-sunset {
+            grid-column: span 2; /* This makes the card take up two grid columns */
+        }
+        .highlight-card.sunrise-sunset .card-content {
+            display: flex;
+            justify-content: space-around; /* Use space-around for good spacing in the wider card */
+            align-items: center;
+            gap: 20px;
+        }
         .time-item { display: flex; align-items: center; gap: 12px; }
         .time-item .label, .time-item .value { display: block; }
         .time-item .value { color: var(--on-surface); font-weight: 600; font-size: 1.5rem; }
-        .highlight-card.generic .card-content { display: flex; align-items: center; gap: 12px; }
+
+        /* --- NEW/CHANGED AS PER YOUR REQUEST --- */
+        .highlight-card.generic .card-content {
+            display: flex;
+            align-items: center;
+            /* justify-content is removed to restore left-alignment */
+            gap: 12px;
+        }
         .highlight-card.generic .value { color: var(--on-surface); font-weight: 600; font-size: 1.8rem; }
         
-        /* Hourly Forecast */
         .hourly-forecast .slider-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: thin; scrollbar-color: var(--primary) var(--outline); }
         .slider-container::-webkit-scrollbar { height: 8px; }
         .slider-container::-webkit-scrollbar-track { background: var(--outline); border-radius: 10px; }
@@ -174,12 +234,10 @@
         .hourly-item .time, .hourly-item .temp { color: var(--on-surface); font-weight: 600; }
         .hourly-item .weather-icon { width: 48px; height: 48px; margin: 8px auto; }
         
-        /* Loading State */
         .container.loading .content-grid { opacity: 0.2; pointer-events: none; filter: blur(2px); }
         .container .loading-text { display: none; }
         .container.loading .loading-text { display: block; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; color: var(--on-surface); z-index: 10; }
 
-        /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 992px) {
             .page-header {
                 flex-direction: column;
@@ -190,4 +248,8 @@
                 justify-content: space-between;
             }
             .content-grid { grid-template-columns: 1fr; }
+            /* --- NEW/CHANGED AS PER YOUR REQUEST --- */
+            .highlight-card.sunrise-sunset {
+                grid-column: span 1; /* On smaller screens, revert to a single column span */
+            }
         }
