@@ -11,7 +11,7 @@
 
 body.light-theme {
     --background: #F0F4F8;
-    --surface: #ffffff;
+    --surface: #FFFFFF;
     --on-surface: #27272A;
     --on-surface-variant: #5E6278;
     --outline: #DCE1E7;
@@ -62,7 +62,7 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    /* gap: 12px; */
+    gap: 12px;
     text-decoration: none;
     color: var(--on-surface);
 }
@@ -524,6 +524,11 @@ body {
     z-index: 10;
 }
 
+/* EDITED: Hides the mobile forecast card by default (on desktop) */
+.mobile-forecast {
+    display: none;
+}
+
 @media (max-width: 992px) {
     .page-header {
         flex-direction: row;
@@ -572,6 +577,15 @@ body {
     .hourly-item {
         flex: auto;
     }
+
+    /* EDITED: Hides the desktop card and shows the mobile card on smaller screens */
+    .desktop-forecast {
+        display: none;
+    }
+
+    .mobile-forecast {
+        display: block;
+    }
 }
 
 #copyright {
@@ -580,7 +594,7 @@ body {
     font-weight: bold;
 }
 
-#madeBy{
+#madeBy {
     text-align: center;
     font-size: 20px;
     font-weight: bold;

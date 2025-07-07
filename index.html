@@ -22,7 +22,6 @@
     <link rel="shortcut icon" href="./favicon.svg" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
     <div class="container loading">
@@ -31,15 +30,14 @@
             <a href="#" class="logo">
                 <img src="logo.png" alt="Aura Weather Logo">
             </a>
-
+            
             <button class="theme-btn" id="mobile-theme-btn" aria-label="Toggle Theme">
                 <span class="material-symbols-outlined">dark_mode</span>
             </button>
-
+            
             <div class="header-actions">
                 <div class="search-view">
-                    <input type="search" class="search-field" id="search-input" placeholder="Search city..."
-                        autocomplete="off">
+                    <input type="search" class="search-field" id="search-input" placeholder="Search city..." autocomplete="off">
                     <button class="search-icon-btn" id="search-icon-btn" aria-label="Search">
                         <span class="material-symbols-outlined">search</span>
                     </button>
@@ -56,7 +54,7 @@
                     <span class="fahrenheit-span">°F</span>
                 </button>
                 <button class="theme-btn" id="desktop-theme-btn" aria-label="Toggle Theme">
-                    <span class="material-symbols-outlined">dark_mode</span>
+                     <span class="material-symbols-outlined">dark_mode</span>
                 </button>
             </div>
         </header>
@@ -66,25 +64,20 @@
                 <div class="card current-weather-card">
                     <p class="card-header">Now</p>
                     <div class="weather-info">
-                        <p class="temp"><span id="current-temp">--</span><span class="temp-unit"
-                                id="current-temp-unit">°C</span></p>
-                        <img src="https://openweathermap.org/img/wn/01d@4x.png" alt="Weather Icon" class="weather-icon"
-                            id="current-weather-icon">
+                        <p class="temp"><span id="current-temp">--</span><span class="temp-unit" id="current-temp-unit">°C</span></p>
+                        <img src="https://openweathermap.org/img/wn/01d@4x.png" alt="Weather Icon" class="weather-icon" id="current-weather-icon">
                     </div>
                     <p class="description" id="current-description">--</p>
                     <hr>
                     <div class="meta-info">
-                        <div class="meta-row"><span class="material-symbols-outlined">calendar_today</span>
-                            <p id="current-date">--</p>
-                        </div>
-                        <div class="meta-row"><span class="material-symbols-outlined">location_on</span>
-                            <p id="current-location">--</p>
-                        </div>
+                        <div class="meta-row"><span class="material-symbols-outlined">calendar_today</span><p id="current-date">--</p></div>
+                        <div class="meta-row"><span class="material-symbols-outlined">location_on</span><p id="current-location">--</p></div>
                     </div>
                 </div>
-                <div class="card forecast-card">
+                <!-- EDITED: This is the original forecast card for DESKTOP view -->
+                <div class="card forecast-card desktop-forecast">
                     <h3 class="title">5 Days Forecast</h3>
-                    <ul class="forecast-list" id="forecast-list"></ul>
+                    <ul class="forecast-list" id="forecast-list-desktop"></ul>
                 </div>
             </aside>
             <main class="main-content">
@@ -98,22 +91,10 @@
                                 <p class="aqi-status" id="aqi-status">--</p>
                             </div>
                             <div class="pollutants">
-                                <div class="pollutant-item">
-                                    <p>PM2.5</p>
-                                    <p class="value" id="pm2_5">--</p>
-                                </div>
-                                <div class="pollutant-item">
-                                    <p>SO2</p>
-                                    <p class="value" id="so2">--</p>
-                                </div>
-                                <div class="pollutant-item">
-                                    <p>NO2</p>
-                                    <p class="value" id="no2">--</p>
-                                </div>
-                                <div class="pollutant-item">
-                                    <p>O3</p>
-                                    <p class="value" id="o3">--</p>
-                                </div>
+                                <div class="pollutant-item"><p>PM2.5</p><p class="value" id="pm2_5">--</p></div>
+                                <div class="pollutant-item"><p>SO2</p><p class="value" id="so2">--</p></div>
+                                <div class="pollutant-item"><p>NO2</p><p class="value" id="no2">--</p></div>
+                                <div class="pollutant-item"><p>O3</p><p class="value" id="o3">--</p></div>
                             </div>
                         </div>
                         <div class="highlight-card sunrise-sunset">
@@ -121,21 +102,18 @@
                             <div class="card-content">
                                 <div class="time-item">
                                     <span class="material-symbols-outlined" style="font-size: 3rem;">clear_day</span>
-                                    <div><span class="label">Sunrise</span><span class="value"
-                                            id="sunrise-time">--</span></div>
+                                    <div><span class="label">Sunrise</span><span class="value" id="sunrise-time">--</span></div>
                                 </div>
                                 <div class="time-item">
                                     <span class="material-symbols-outlined" style="font-size: 3rem;">clear_night</span>
-                                    <div><span class="label">Sunset</span><span class="value" id="sunset-time">--</span>
-                                    </div>
+                                    <div><span class="label">Sunset</span><span class="value" id="sunset-time">--</span></div>
                                 </div>
                             </div>
                         </div>
                         <div class="highlight-card generic">
                             <h3 class="card-title">Humidity</h3>
                             <div class="card-content">
-                                <span class="material-symbols-outlined"
-                                    style="font-size: 3rem;">humidity_percentage</span>
+                                <span class="material-symbols-outlined" style="font-size: 3rem;">humidity_percentage</span>
                                 <p class="value" id="humidity">-- <span>%</span></p>
                             </div>
                         </div>
@@ -157,7 +135,6 @@
                             <h3 class="card-title">Feels Like</h3>
                             <div class="card-content">
                                 <span class="material-symbols-outlined" style="font-size: 3rem;">thermostat</span>
-                                <!-- EDITED HTML: Separated value and unit into two spans -->
                                 <p class="value">
                                     <span id="feels-like">--</span><span id="feels-like-unit">°C</span>
                                 </p>
@@ -169,6 +146,11 @@
                     <h2 class="title">Today at</h2>
                     <div class="slider-container" id="hourly-forecast-container"></div>
                 </section>
+                <!-- EDITED: This is the DUPLICATED forecast card for MOBILE view -->
+                <div class="card forecast-card mobile-forecast">
+                    <h3 class="title">5 Days Forecast</h3>
+                    <ul class="forecast-list" id="forecast-list-mobile"></ul>
+                </div>
             </main>
         </div>
         <p id="copyright">&copy; 2025 Aura Weather. All rights reserved.</p>
