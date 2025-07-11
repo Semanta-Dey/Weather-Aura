@@ -36,6 +36,7 @@
             </button>
             
             <div class="header-actions">
+                <!-- Search Bar -->
                 <div class="search-view">
                     <input type="search" class="search-field" id="search-input" placeholder="Search city..." autocomplete="off">
                     <button class="search-icon-btn" id="search-icon-btn" aria-label="Search">
@@ -61,6 +62,7 @@
 
         <div class="content-grid">
             <aside class="sidebar">
+                <!-- Current Weather Card -->
                 <div class="card current-weather-card">
                     <p class="card-header">Now</p>
                     <div class="weather-info">
@@ -74,7 +76,7 @@
                         <div class="meta-row"><span class="material-symbols-outlined">location_on</span><p id="current-location">--</p></div>
                     </div>
                 </div>
-                <!-- EDITED: This is the original forecast card for DESKTOP view -->
+                <!-- This is the original forecast card for DESKTOP view -->
                 <div class="card forecast-card desktop-forecast">
                     <h3 class="title">5 Days Forecast</h3>
                     <ul class="forecast-list" id="forecast-list-desktop"></ul>
@@ -84,6 +86,7 @@
                 <section class="highlights">
                     <h2 class="title">Todays Highlights</h2>
                     <div class="highlights-grid">
+                        <!-- Air Quality Index Card -->
                         <div class="highlight-card aqi">
                             <h3 class="card-title">Air Quality Index</h3>
                             <div class="card-content">
@@ -97,6 +100,7 @@
                                 <div class="pollutant-item"><p>O3</p><p class="value" id="o3">--</p></div>
                             </div>
                         </div>
+                        <!-- Sunrise & Sunset Card -->
                         <div class="highlight-card sunrise-sunset">
                             <h3 class="card-title">Sunrise & Sunset</h3>
                             <div class="card-content">
@@ -110,13 +114,16 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Humadity Card -->
                         <div class="highlight-card generic">
                             <h3 class="card-title">Humidity</h3>
                             <div class="card-content">
                                 <span class="material-symbols-outlined" style="font-size: 3rem;">humidity_percentage</span>
-                                <p class="value" id="humidity">-- <span>%</span></p>
+                                <p class="value" id="humidity">--<span>%</span></p>
                             </div>
                         </div>
+                        <!-- Pressure Card -->
                         <div class="highlight-card generic">
                             <h3 class="card-title">Pressure</h3>
                             <div class="card-content">
@@ -124,6 +131,7 @@
                                 <p class="value" id="pressure">-- <span>hPa</span></p>
                             </div>
                         </div>
+                        <!-- Visibility Card -->
                         <div class="highlight-card generic">
                             <h3 class="card-title">Visibility</h3>
                             <div class="card-content">
@@ -131,6 +139,7 @@
                                 <p class="value" id="visibility">-- <span>km</span></p>
                             </div>
                         </div>
+                        <!-- Feels Like Card -->
                         <div class="highlight-card generic">
                             <h3 class="card-title">Feels Like</h3>
                             <div class="card-content">
@@ -146,7 +155,7 @@
                     <h2 class="title">Today at</h2>
                     <div class="slider-container" id="hourly-forecast-container"></div>
                 </section>
-                <!-- EDITED: This is the DUPLICATED forecast card for MOBILE view -->
+                <!--This is the DUPLICATED forecast card for MOBILE view -->
                 <div class="card forecast-card mobile-forecast">
                     <h3 class="title">5 Days Forecast</h3>
                     <ul class="forecast-list" id="forecast-list-mobile"></ul>

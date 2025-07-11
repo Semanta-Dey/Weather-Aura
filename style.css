@@ -64,7 +64,7 @@ body {
     align-items: center;
     gap: 12px;
     text-decoration: none;
-    color: var(--on-surface);
+    /* color: var(--on-surface); */
 }
 
 .logo img {
@@ -99,7 +99,7 @@ body {
     color: var(--on-surface);
     font-size: 1rem;
     outline: none;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    /* transition: background-color 0.3s ease, border-color 0.3s ease; */
 }
 
 .search-field:focus {
@@ -116,7 +116,7 @@ body {
     border: none;
     cursor: pointer;
     color: var(--on-surface-variant);
-    display: grid;
+    display: grid; 
     place-items: center;
 }
 
@@ -146,6 +146,7 @@ body {
     padding: 0;
 }
 
+/* Style for suggestions search */
 .view-item {
     display: flex;
     align-items: center;
@@ -310,7 +311,7 @@ body {
 .current-weather-card .weather-icon {
     width: 80px;
     height: 80px;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1));
+    /* filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1)); */
 }
 
 .current-weather-card .description {
@@ -432,7 +433,7 @@ body {
 
 .highlight-card.sunrise-sunset .card-content {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
 }
@@ -469,19 +470,19 @@ body {
     scrollbar-color: var(--primary) var(--outline);
 }
 
-.slider-container::-webkit-scrollbar {
+/* .slider-container::-webkit-scrollbar {
     height: 8px;
 }
 
 .slider-container::-webkit-scrollbar-track {
     background: var(--outline);
     border-radius: 10px;
-}
+} */
 
-.slider-container::-webkit-scrollbar-thumb {
+/* .slider-container::-webkit-scrollbar-thumb {
     background: var(--primary);
     border-radius: 10px;
-}
+} */
 
 .hourly-item {
     flex: 0 0 90px;
@@ -578,7 +579,7 @@ body {
         flex: auto;
     }
 
-    /* EDITED: Hides the desktop card and shows the mobile card on smaller screens */
+    /*Hides the desktop card and shows the mobile card on smaller screens */
     .desktop-forecast {
         display: none;
     }
